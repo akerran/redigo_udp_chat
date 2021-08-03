@@ -30,13 +30,12 @@ func server_listener(wg *sync.WaitGroup) {
         }
 
         fmt.Printf("%s\n", buf[:n])
-        time.Sleep(1 * time.Second)
     }
     wg.Done()
 }
 
 func main() {
-    fmt.Println("Enter your name: ")
+    fmt.Printf("Enter your name: ")
     var username string
     fmt.Scanln(&username)
 
@@ -55,6 +54,8 @@ func main() {
     wg := sync.WaitGroup{}
     wg.Add(1)
     go server_listener(&wg)
+
+    pc.WriteTo([]byte("/h"), addr)
 
     reader := bufio.NewReader(os.Stdin)
     rand.Seed(time.Now().UTC().UnixNano())
