@@ -86,12 +86,6 @@ func client_listener(wg *sync.WaitGroup, c redis.Conn) {
     wg.Done()
 }
 
-
-
-// func count_clients() {
-//     c.Do("client", "list")
-// }
-
 func load_history(c redis.Conn) string {
     var s string
     values,err := redis.Values(c.Do("lrange", "messages",0,MAXCHATHISTORY))
@@ -135,6 +129,4 @@ func main() {
         }
     }
     wg.Wait()
-
-
 }

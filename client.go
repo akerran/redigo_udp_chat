@@ -3,17 +3,13 @@ package main
 import (
     "net"
     "fmt"
-    "github.com/gomodule/redigo/redis"
     "math/rand"
     "bufio"
     "os"
-    //"os/exec"
     "sync"
     "time"
     "strconv"
 )
-
-const MAXCHATHISTORY int = 20
 
 func server_listener(wg *sync.WaitGroup) {
     listenAddr,err := net.ResolveUDPAddr("udp4", ":8813")
@@ -34,25 +30,10 @@ func server_listener(wg *sync.WaitGroup) {
         }
 
         fmt.Printf("%s\n", buf[:n])
-        //cmd := exec.Command("clear")
-        //cmd.Stdout = os.Stdout
-        //cmd.Run()
         time.Sleep(1 * time.Second)
     }
     wg.Done()
 }
-
-func load_history(c redis.Conn) {
-    values,err := redis.Values(c.Do("lrange","messages",0,20))
-    if err != nil{
-        fmt.Println("Failed loading chat history:",err.Error())
-    }
-    for _,v := range values{
-        fmt.Printf(" %s \n",v.([]byte))
-        // fmt.Println()
-    }
-}
-
 
 func main() {
     fmt.Println("Enter your name: ")
@@ -70,9 +51,6 @@ func main() {
     if err != nil {
         panic(err)
     }
-
-    //load_history(c)
-
 
     wg := sync.WaitGroup{}
     wg.Add(1)
