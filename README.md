@@ -18,15 +18,15 @@ Some implementation details:
 
 Redis stores history using list 'messages' (it guarantees that all messages will be in correct order).
 Every entry in 'messages' list has the following format:
-<id> <username>: <message>
+\<id\> \<username\>: \<message\>
 
-where:
-<id> - some random 6 digit id of message
-<username> - name that current user has chosen
-<message> - text of message
+where:<br/>
+\<id\> - some random 6 digit id of message<br/>
+\<username\> - name that current user has chosen<br/>
+\<message\> - text of message<br/>
 
 Together with 'messages' list Redis stores hash for every user in the following format:
-user:<username> <id> <entry from 'messages' list>
+user:\<username\> \<id\> \<entry from 'messages' list\>
 
 When user wants to remove his message, server will try to find message by message id in hash for current user. Then if message is found, it will be removed from 'messages' list.
 
